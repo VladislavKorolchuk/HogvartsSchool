@@ -1,8 +1,6 @@
 package ru.school.hogvartsschool.model;
 
 import javax.persistence.*;
-import java.util.Arrays;
-import java.util.Objects;
 
 @Entity
 public class Avatar {
@@ -20,18 +18,6 @@ public class Avatar {
 
     @OneToOne
     private Student student;
-
-    public Avatar() {
-    }
-
-    public Avatar(Long id, String pathFile, String fileType, long fileSize, byte[] data, Student student) {
-        this.id = id;
-        this.pathFile = pathFile;
-        this.fileType = fileType;
-        this.fileSize = fileSize;
-        this.data = data;
-        this.student = student;
-    }
 
     public Long getId() {
         return id;
@@ -79,32 +65,6 @@ public class Avatar {
 
     public void setStudent(Student student) {
         this.student = student;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Avatar avatar1)) return false;
-        return getFileSize() == avatar1.getFileSize() && Objects.equals(getId(), avatar1.getId()) && Objects.equals(getPathFile(), avatar1.getPathFile()) && Objects.equals(getFileType(), avatar1.getFileType()) && Arrays.equals(getData(), avatar1.getData()) && Objects.equals(getStudent(), avatar1.getStudent());
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(getId(), getPathFile(), getFileType(), getFileSize(), getStudent());
-        result = 31 * result + Arrays.hashCode(getData());
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Avatar{" +
-                "id=" + id +
-                ", pathFile='" + pathFile + '\'' +
-                ", fileType='" + fileType + '\'' +
-                ", fileSize=" + fileSize +
-                ", avatar=" + Arrays.toString(data) +
-                ", student=" + student +
-                '}';
     }
 
 }
