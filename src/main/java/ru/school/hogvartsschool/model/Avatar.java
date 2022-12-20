@@ -1,6 +1,7 @@
 package ru.school.hogvartsschool.model;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
 public class Avatar {
@@ -67,4 +68,14 @@ public class Avatar {
         this.student = student;
     }
 
+    @Override
+    public String toString() {
+        return "Avatar{" +
+                "id=" + id +
+                ", pathFile='" + pathFile + '\'' +
+                ", fileType='" + fileType + '\'' +
+                ", fileSize=" + fileSize +
+                ", student=" + student + "\n"+
+                '}';
+    }
 }

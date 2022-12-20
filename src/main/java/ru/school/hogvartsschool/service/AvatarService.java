@@ -1,6 +1,8 @@
 package ru.school.hogvartsschool.service;
 
+import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +15,7 @@ import javax.transaction.Transactional;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -30,6 +33,11 @@ public class AvatarService {
 
     public Avatar findAvatar(long studentId) {
         return avatarRepository.findByStudentId(studentId).orElseThrow();
+    }
+
+    public List<Avatar> getAvatars(Integer pageNumbers, Integer pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumbers-1,pageSize);
+        return avatarRepository.findAll(pageRequest).getContent();
     }
 
     @Value("${avatars.dir.path}")
