@@ -12,7 +12,7 @@ import java.util.Collection;
 @RequestMapping("/SQL")
 public class SQLStudentController {
 
-    SQLStudentService sqlStudentService;
+    private final SQLStudentService sqlStudentService;
 
     public SQLStudentController(SQLStudentService sqlStudentService) {
         this.sqlStudentService = sqlStudentService;
@@ -28,9 +28,9 @@ public class SQLStudentController {
         return sqlStudentService.averageAgeOfStudents();
     }
 
-      @GetMapping("/the_last_five_students")
-      public Collection<Student> theLastFiveStudents() {
-          return sqlStudentService.getTheLastFive();
-      }
+    @GetMapping("/the_last_five_students")
+    public Collection<Student> theLastFiveStudents() {
+        return sqlStudentService.getTheLastFive();
+    }
 
 }

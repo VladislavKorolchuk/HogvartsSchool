@@ -9,11 +9,10 @@ import java.util.Collection;
 @Service
 public class SQLStudentService {
 
+    private final StudentRepository studentRepository;
     public SQLStudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
-
-    StudentRepository studentRepository;
 
     public Integer numberOfStudents() {
         return studentRepository.getNumberStudent();

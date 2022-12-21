@@ -15,7 +15,7 @@ public class StudentService {
     @Value("${avatars.dir.path}")
     private String avatarsDir;
     StudentRepository studentRepository;
-    AvatarRepository avatarRepository;
+    private final AvatarRepository avatarRepository;
 
     public StudentService(StudentRepository studentRepository, AvatarRepository avatarRepository) {
         this.studentRepository = studentRepository;

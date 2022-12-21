@@ -68,14 +68,4 @@ public class Avatar {
         this.student = student;
     }
 
-    @Override
-    public String toString() {
-        return "Avatar{" +
-                "id=" + id +
-                ", pathFile='" + pathFile + '\'' +
-                ", fileType='" + fileType + '\'' +
-                ", fileSize=" + fileSize +
-                ", student=" + student + "\n"+
-                '}';
-    }
 }

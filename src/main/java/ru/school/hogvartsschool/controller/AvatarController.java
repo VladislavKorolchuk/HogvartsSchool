@@ -17,13 +17,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
 public class AvatarController {
 
-    AvatarService avatarService;
-    StudentService studentService;
+    private final AvatarService avatarService;
+    private final StudentService studentService;
 
     public AvatarController(AvatarService avatarService, StudentService studentService) {
         this.avatarService = avatarService;
@@ -64,10 +65,8 @@ public class AvatarController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getAvatars(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
-
-        return  ResponseEntity.ok(avatarService.getAvatars(page, size).toString());
-
+    public ResponseEntity<Collection<Avatar>> getAvatars(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        return  ResponseEntity.ok(avatarService.getAvatars(page, size));
     }
 
 }

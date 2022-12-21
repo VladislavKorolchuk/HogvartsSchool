@@ -14,7 +14,7 @@ import java.util.Collection;
 @RequestMapping("/student")
 public class StudentController {
 
-    StudentService studentService;
+    private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
