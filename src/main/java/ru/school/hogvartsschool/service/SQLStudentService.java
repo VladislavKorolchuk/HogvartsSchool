@@ -9,7 +9,7 @@ import java.util.Collection;
 @Service
 public class SQLStudentService {
 
-    private final StudentRepository studentRepository;
+    private  StudentRepository studentRepository;
     public SQLStudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }

@@ -23,8 +23,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Transactional
 public class AvatarService {
 
-    private final AvatarRepository avatarRepository;
-    private final StudentRepository studentRepository;
+    private  AvatarRepository avatarRepository;
+    private  StudentRepository studentRepository;
 
     public AvatarService(AvatarRepository avatarRepository, StudentRepository studentRepository) {
         this.avatarRepository = avatarRepository;
