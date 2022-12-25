@@ -1,6 +1,8 @@
 package ru.school.hogvartsschool.service;
 
-import org.apache.coyote.Request;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -23,33 +25,37 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Transactional
 public class AvatarService {
 
-    private  AvatarRepository avatarRepository;
-    private  StudentRepository studentRepository;
+    @Value("${avatars.dir.path}")
+    private String avatarsDir;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AvatarService.class);
+
+    private final AvatarRepository avatarRepository;
+    private final StudentRepository studentRepository;
     public AvatarService(AvatarRepository avatarRepository, StudentRepository studentRepository) {
         this.avatarRepository = avatarRepository;
         this.studentRepository = studentRepository;
     }
 
     public Avatar findAvatar(long studentId) {
+        LOGGER.info("Was invoked method for find avast");
         return avatarRepository.findByStudentId(studentId).orElseThrow();
     }
 
-    public List<Avatar> getAvatars(Integer pageNumbers, Integer pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageNumbers-1,pageSize);
+    public List<Avatar> getAvatars(Integer pageNumbers) {
+        LOGGER.info("Was invoked method for get avast");
+        PageRequest pageRequest = PageRequest.of(pageNumbers - 1, 8);
         return avatarRepository.findAll(pageRequest).getContent();
     }
 
-    @Value("${avatars.dir.path}")
-    private String avatarsDir;
-
     public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
-
+        LOGGER.info("Was invoked method for upload avatar");
         Student student = studentRepository.getById(studentId);
         Path filePath = Path.of(avatarsDir, studentId + "." + getExtension(file.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
+        LOGGER.debug("creation directories");
         Files.deleteIfExists(filePath);
-
+        LOGGER.debug("delete file");
         try (InputStream is = file.getInputStream();
              OutputStream os = Files.newOutputStream(filePath, CREATE_NEW);
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
@@ -68,6 +74,7 @@ public class AvatarService {
     }
 
     private String getExtension(String fileName) {
+        LOGGER.info("Was invoked method for get extension");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
