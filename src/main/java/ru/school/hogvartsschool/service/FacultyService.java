@@ -5,9 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.school.hogvartsschool.model.Faculty;
+import ru.school.hogvartsschool.model.Student;
 import ru.school.hogvartsschool.repositories.FacultyRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class FacultyService {
@@ -53,4 +56,9 @@ public class FacultyService {
         return this.facultyRepository.findByName(name);
     }
 
+    public Faculty longestNameOfTheFaculty() {
+        LOGGER.info("Was invoked method for get longest name of the faculty");
+        List<Faculty> facultyList = facultyRepository.findAll();
+        return facultyList.stream().max(Comparator.comparing(f->f.getName())).get();
+    }
 }

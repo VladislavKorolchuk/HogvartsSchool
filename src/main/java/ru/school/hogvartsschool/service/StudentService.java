@@ -10,6 +10,8 @@ import ru.school.hogvartsschool.repositories.AvatarRepository;
 import ru.school.hogvartsschool.repositories.StudentRepository;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -20,6 +22,7 @@ public class StudentService {
     private String avatarsDir;
     private final StudentRepository studentRepository;
     private final AvatarRepository avatarRepository;
+
     public StudentService(StudentRepository studentRepository, AvatarRepository avatarRepository) {
         this.studentRepository = studentRepository;
         this.avatarRepository = avatarRepository;
@@ -63,6 +66,18 @@ public class StudentService {
     public Collection<Student> getStudentsByFaculty(Long id) {
         LOGGER.info("Was invoked method for get student by faculty");
         return studentRepository.findByFaculty_Id(id);
+    }
+
+    public Double averageAgeOfAllStudents() {
+        LOGGER.info("Was invoked method for get average age of students");
+        List<Student> studentList = studentRepository.findAll();
+        return studentList.stream().collect(Collectors.averagingInt(Student::getAge));
+    }
+
+    public List<Student> allStudentsWithNamesStartingWithA() {
+        LOGGER.info("Was invoked method for get students with name starting with A");
+        List<Student> studentList = studentRepository.findAll();
+        return studentList.stream().filter(s -> s.getName().substring(0, 1).equals("А")).collect(Collectors.toList());
     }
 
 }

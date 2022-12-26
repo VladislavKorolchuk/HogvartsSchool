@@ -1,5 +1,6 @@
 package ru.school.hogvartsschool.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 
 import ru.school.hogvartsschool.model.Faculty;
@@ -46,6 +47,12 @@ public class FacultyController {
             return this.facultyService.getFacultyByColor(color);
         }
         return this.facultyService.getAllFacultys();
+    }
+
+    @GetMapping("/longestNameTheFaculty")
+    @Operation(summary = "Получение факультета с самым длинным именем")
+    public Faculty longestNameOfTheFaculty() {
+        return facultyService.longestNameOfTheFaculty();
     }
 
 }
