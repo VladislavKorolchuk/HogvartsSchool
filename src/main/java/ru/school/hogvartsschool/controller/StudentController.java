@@ -1,14 +1,13 @@
 package ru.school.hogvartsschool.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-
 import org.springframework.web.bind.annotation.*;
-
 import ru.school.hogvartsschool.model.Faculty;
 import ru.school.hogvartsschool.model.Student;
 import ru.school.hogvartsschool.service.StudentService;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -31,7 +30,7 @@ public class StudentController {
     }
 
     @PutMapping({"/{id}"})
-    public Student searchStudent(@PathVariable("id") Long id, @RequestBody Student student) {
+    public Student updateStudent(@PathVariable("id") Long id, @RequestBody Student student) {
         return this.studentService.updateStudent(id, student);
     }
 
@@ -41,7 +40,7 @@ public class StudentController {
     }
 
     @GetMapping
-    public Collection<Student> getAllStudent() {
+    public Collection<Student> getAllStudents() {
         return this.studentService.getAllStudents();
     }
 
@@ -50,21 +49,44 @@ public class StudentController {
         return this.studentService.getStudentsByAge(age);
     }
 
-      @GetMapping("/between_age")
-      public Collection<Student> getStunetByAgeBeetween(@RequestParam Integer min, @RequestParam Integer max) {
-          return studentService.findByAgeBetween(min,max);
-      }
+    @GetMapping("/between_age")
+    public Collection<Student> getStudentByAgeBetween(@RequestParam Integer min, @RequestParam Integer max) {
+        return studentService.findByAgeBetween(min, max);
+    }
 
     @GetMapping("/studentbyfaculty/{id}")
-    @Operation (summary = "Получение факультета по заданному id студента")
+    @Operation(summary = "Получение факультета по заданному id студента")
     public Faculty getFaculty(@PathVariable("id") Long id) {
         return this.studentService.searchStudent(id).getFaculty();
     }
 
     @GetMapping("/studentsbyfaculty/{id}")
-    @Operation (summary = "Получение всех студентов по заданному id факультету")
+    @Operation(summary = "Получение всех студентов по заданному id факультету")
     public Collection<Student> getStudentsByFaculty(@PathVariable("id") Long id) {
         return this.studentService.getStudentsByFaculty(id);
     }
 
+    @GetMapping("/allStudentsWithNamesStartingWithA")
+    @Operation(summary = "Получение всех студентов имена которых начинаются с А")
+    public List<Student> allStudentsWithNamesStartingWithA() {
+        return studentService.allStudentsWithNamesStartingWithA();
+    }
+
+    @GetMapping("/averageAgeOfAllStudents")
+    @Operation(summary = "Получение среднего возраста студентов")
+    public Double averageAgeOfAllStudents() {
+        return studentService.averageAgeOfAllStudents();
+    }
+
+    @GetMapping("/Thread_1")
+    @Operation(summary = "Поток вывод всех студентов в консоль")
+    public void threadOne() {
+        studentService.threadOne();
+    }
+
+    @GetMapping("/Thread_2")
+    @Operation(summary = "Поток вывод всех студентов в консоль")
+    public void thradTwo() {
+        studentService.threadTwo();
+    }
 }
