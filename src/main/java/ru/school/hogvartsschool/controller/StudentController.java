@@ -78,4 +78,15 @@ public class StudentController {
         return studentService.averageAgeOfAllStudents();
     }
 
+    @GetMapping("/Thread_1")
+    @Operation(summary = "Поток вывод всех студентов в консоль")
+    public void threadOne() {
+        studentService.threadOne();
+    }
+
+    @GetMapping("/Thread_2")
+    @Operation(summary = "Поток вывод всех студентов в консоль")
+    public void thradTwo() {
+        studentService.threadTwo();
+    }
 }

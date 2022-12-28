@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import ru.school.hogvartsschool.exception.InvalidIndexException;
 import ru.school.hogvartsschool.model.Student;
 import ru.school.hogvartsschool.repositories.AvatarRepository;
 import ru.school.hogvartsschool.repositories.StudentRepository;
@@ -17,6 +18,8 @@ import java.util.stream.Collectors;
 public class StudentService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
+
+    public Object flag = new Object();
 
     @Value("${avatars.dir.path}")
     private String avatarsDir;
@@ -78,6 +81,54 @@ public class StudentService {
         LOGGER.info("Was invoked method for get students with name starting with A");
         List<Student> studentList = studentRepository.findAll();
         return studentList.stream().filter(s -> s.getName().substring(0, 1).equals("А")).collect(Collectors.toList());
+    }
+
+    public void threadOne() {
+        LOGGER.info("Was invoked method for thread one");
+        List<Student> studentList = studentRepository.findAll();
+        if (studentList.size() < 6) {
+            throw new InvalidIndexException("Not enough elements to output");
+        }
+        new Thread(() -> {
+            System.out.println("Name third student - " + studentList.get(2).getName());
+            System.out.println("Name fourth student - " + studentList.get(3).getName());
+        }).start();
+        new Thread(() -> {
+            System.out.println("Name fifth student - " + studentList.get(4).getName());
+            System.out.println("Name sixth student - " + studentList.get(5).getName());
+        }).start();
+        System.out.println("Name first student - " + studentList.get(0).getName());
+        System.out.println("Name two student - " + studentList.get(1).getName());
+    }
+
+    public void threadTwo() {
+        LOGGER.info("Was invoked method for thread two");
+        List<Student> studentList = studentRepository.findAll();
+        if (studentList.size() < 6) {
+            throw new InvalidIndexException("Not enough elements to output");
+        }
+        System.out.println("Name first student - " + studentList.get(0).getName());
+        System.out.println("Name two student - " + studentList.get(1).getName());
+        new Thread(() -> {
+            metodOne(studentList.get(2).getName(),studentList.get(3).getName());
+        }).start();
+        new Thread(() -> {
+            metodTwo(studentList.get(3).getName(),studentList.get(4).getName());
+        }).start();
+    }
+
+    private void metodOne(String name1, String name2) {
+        synchronized (flag) {
+            System.out.println("Name third student - " + name1);
+            System.out.println("Name fourth student - " + name2);
+        }
+    }
+
+    private void metodTwo(String name1, String name2) {
+        synchronized (flag) {
+            System.out.println("Name fifth student - " + name1);
+            System.out.println("Name sixth student - " + name2);
+        }
     }
 
 }
